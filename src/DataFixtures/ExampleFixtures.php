@@ -18,6 +18,6 @@ class ExampleFixtures extends Fixture
             $example->setName($faker->name);
             $manager->persist($example);
         }
-        $manager->flush();
+        //$manager->flush();
     }
 }
