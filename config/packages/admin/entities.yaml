@@ -1,0 +1,31 @@
+easy_admin:
+  entities:
+    Example:
+      class: App\Entity\Example
+      list:
+        fields:
+          - { property: 'name'}
+          - { property: 'image', type: 'image', base_path: '/uploads/examples' }
+      form:
+        fields:
+          - { property: 'name'}
+          - { property: "file", type: 'file'}
+    User:
+      class: App\Entity\User
+      # Notre controller spécifique
+      controller: App\Controller\Admin\User\UserAdminController
+      form:
+        fields:
+          - { property: "email" }
+          - property: "plainPassword"
+            type: "password"
+            type_options: { required: false }
+            label: "Password"
+          - property: "roles"
+            type: "choice"
+            type_options:
+              mapped: true
+              expanded: true
+              multiple: true
+              choices: { "User": "ROLE_USER", "Administrateur": "ROLE_ADMIN" }
+          - { property: "isActive" }
