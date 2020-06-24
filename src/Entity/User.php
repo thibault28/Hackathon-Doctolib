@@ -41,10 +41,22 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\ManyToOne(targetEntity=Statut::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $isActive = 1;
+    private $statut;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastname;
 
     public function getId(): ?int
     {
@@ -141,14 +153,38 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function getStatut(): ?Statut
     {
-        return $this->isActive;
+        return $this->statut;
     }
 
-    public function setIsActive(bool $isActive): self
+    public function setStatut(?Statut $statut): self
     {
-        $this->isActive = $isActive;
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }

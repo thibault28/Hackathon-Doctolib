@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Chars;
+use App\Service\Medecins;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
@@ -12,6 +14,13 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+
+        $medecins = new Medecins();
+        $chars = new Chars();
+
+        //$medecins = $medecins->getMedecins(strtoupper($chars->removeAccent('rivoal')));
+        //var_dump($medecins);
+
         return $this->render('home/index.html.twig', []);
     }
 }

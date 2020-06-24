@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Service\Chars;
+use App\Service\Medecins;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +30,11 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            
+
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -35,16 +42,46 @@ class SecurityController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+        
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            if($user->getStatut()->getName() == "medecin"){
 
-            $this->addFlash('success', 'You are registered now log in');
+                $medecin = new Medecins();
+                $char = new Chars();
+                $name = $user->getFirstname().' '.$user->getLastname();
+                $name = $char->removeAccent($name);
+                var_dump(strtoupper($name));
+
+                $isMedecin = $medecin->getMedecins(strtoupper($name));
+
+                
+
+                if($isMedecin){
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'You are registered now log in');
+                return $this->redirectToRoute('homepage');
+
+
+                }else{
+                $this->addFlash('danger', 'We haven\'t found you');
+                }
+
+            }else{
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'You are registered now log in');
+                return $this->redirectToRoute('homepage');
+            }
+
+            
+            
+
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('homepage');
+            
         }
 
         return $this->render('security/register.html.twig', [

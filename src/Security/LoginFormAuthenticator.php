@@ -74,15 +74,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
-        $active = $this->entityManager->getRepository(User::class)->findActiveByEmail([$credentials['email']]);
 
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException($translator->trans('Invalid credentials.'));
-        }
-        if (!$active) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException($translator->trans('Account is disabled.'));
         }
 
         return $user;
