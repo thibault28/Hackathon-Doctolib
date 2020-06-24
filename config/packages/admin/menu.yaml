@@ -4,7 +4,6 @@ easy_admin:
       - label: "Site"
         icon: "newspaper-o"
         children:
-          - { entity: "Example", icon: newspaper-o, label: "Example" }
 
       - label: "User"
         icon: "user-circle"
