@@ -58,10 +58,12 @@ class SecurityController extends AbstractController
 
                 if($isMedecin){
 
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $this->addFlash('success', 'You are registered now log in');
-                return $this->redirectToRoute('homepage');
+                    $user->setRoles(['ROLE_MEDECIN']);
+
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'You are registered now log in');
+                    return $this->redirectToRoute('homepage');
 
 
                 }else{
@@ -69,6 +71,7 @@ class SecurityController extends AbstractController
                 }
 
             }else{
+                $user->setRoles(['ROLE_USER']);
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $this->addFlash('success', 'You are registered now log in');
