@@ -3,15 +3,17 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="container-fluid col-4 p-5 my-4 rounded bg-secondary text-light">
+        <h1 class="text-primary text-center">Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.statut) }}
-        {{ form_row(registrationForm.plainPassword) }}
+        {{ form_start(registrationForm) }}
+            <div class="">{{ form_row(registrationForm.email) }}</div>
+            <div class="">{{ form_row(registrationForm.lastname) }}</div>
+            <div class="">{{ form_row(registrationForm.firstname) }}</div>
+            <div class="">{{ form_row(registrationForm.statut) }}</div>
+            <div class="">{{ form_row(registrationForm.plainPassword) }}</div>
 
-        <button type="submit" class="btn">Register</button>
+            <button type="submit" class="btn bg-primary mt-2 text-white center-block">Register</button>
+    </div>
     {{ form_end(registrationForm) }}
 {% endblock %}

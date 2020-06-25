@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Appointment;
 use App\Form\AppointmentType;
 use App\Repository\AppointmentRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,11 +41,43 @@ class AppointmentController extends AbstractController
         $appointments = $this->getDoctrine()->getRepository(Appointment::class)->findBy(['patient' => $user],['date' => 'ASC']);
 
 
-        return $this->render('appointment/index.html.twig', [
+        return $this->render('appointment/patient.html.twig', [
             'monday'=>$monday,
             'appointments'=> $appointments,
         ]);
     }
+
+     /**
+     * @Route("/medecin/{week}/{year}", name="appointment_medecin", methods={"GET"})
+     */
+    public function medecin(AppointmentRepository $appointmentRepository,$year = "",$week = ""): Response
+    {
+
+
+        if($year != "" && $week != ""){
+            $numberOfWeek = $week;
+            $year = $year;
+            $monday = new \DateTime();
+            $monday->setISOdate($year, $numberOfWeek);
+        }else{
+
+            $numberOfWeek = date("W");
+            $year = date('Y');
+            $monday = new \DateTime();
+            $monday->setISOdate($year, $numberOfWeek);
+        }
+
+
+        $user = $this->getUser();
+        $appointments = $this->getDoctrine()->getRepository(Appointment::class)->findBy(['medecin' => $user],['date' => 'ASC']);
+
+
+        return $this->render('appointment/medecin.html.twig', [
+            'monday'=>$monday,
+            'appointments'=> $appointments,
+        ]);
+    }
+
 
 
 
@@ -88,16 +121,22 @@ class AppointmentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="appointment_delete", methods={"DELETE"})
+     * @Route("/{id}/{url}", name="appointment_delete")
      */
-    public function delete(Request $request, Appointment $appointment): Response
+    public function delete(Request $request, Appointment $appointment, $url): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$appointment->getId(), $request->request->get('_token'))) {
+        try {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($appointment);
             $entityManager->flush();
-        }
+        }catch(Exception $e){
 
-        return $this->redirectToRoute('appointment_index');
+        }
+        
+        $url = str_replace("-","/",$url);
+
+
+
+       return $this->redirect($url);
     }
 }

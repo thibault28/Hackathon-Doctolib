@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Appointment index{% endblock %}
+
+
+
+{% block body %}
+
+{% if app.user %}
+
+{% if app.user.roles[0] == "ROLE_MEDECIN" %}
+
+<section id="content" class="table-layout animated fadeIn">
+
+
+    <h4 class="card-title">
+        <strong>Calendar for week {{ monday|date('W') }} of the year {{ monday|date('Y') }} </strong></h4>
+    {# navigation #}
+    <div class="row">
+        <ul class="pagination offset-lg-8 col-lg-2">
+            <p>Nuber of Week : &nbsp;</p>
+            <li class="page-item">
+                <a href="#" class="page-link"
+                    onclick="location.href='{{path("appointment_medecin", {'week':monday|date_modify("-7 day")|date('W'),'year':monday|date_modify("-7 day")|date('Y')})}}'">{{ monday|date_modify("-7 day")|date('W') }}
+                </a>
+            </li>
+            <li class="active page-item"><a href="#" class="page-link">{{ monday|date('W') }}</a></li>
+            <li class="next">
+                <a href="#" class="page-link"
+                    onclick="location.href='{{path("appointment_medecin", {'week':monday|date_modify("+7 day")|date('W'),'year':monday|date_modify("+7 day")|date('Y')})}}'">{{ monday|date_modify("+7 day")|date('W') }}
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    {# end navigation #}
+    <table class="table table-bordered" id="myTable">
+        <thead>
+            <tr>
+                <th style="width: 12.5%; text-align: center" rowspan="2"></th>
+                <th style="width: 12.5%; text-align: center" class="success">MONDAY</th>
+                <th style="width: 12.5%; text-align: center" class="success">TUESDAY</th>
+                <th style="width: 12.5%; text-align: center" class="success">WEDNESDAY</th>
+                <th style="width: 12.5%; text-align: center" class="success">THURSDAY</th>
+                <th style="width: 12.5%; text-align: center" class="success">FRIDAY</th>
+                <th style="width: 12.5%; text-align: center" class="success">SATURDAY</th>
+                <th style="width: 12.5%; text-align: center" class="success">SUNDAY</th>
+            </tr>
+            <tr>
+                <th style="text-align: center" class="info">{{ monday|date('Y-m-d') }}</th>
+                <th style="text-align: center" class="info">{{ monday|date_modify("+1 day")|date('Y-m-d') }}
+                </th>
+                <th style="text-align: center" class="info">{{ monday|date_modify("+2 day")|date('Y-m-d') }}
+                </th>
+                <th style="text-align: center" class="info">{{ monday|date_modify("+3 day")|date('Y-m-d') }}
+                </th>
+                <th style="text-align: center" class="info">{{ monday|date_modify("+4 day")|date('Y-m-d') }}
+                </th>
+                <th style="text-align: center" class="info">{{ monday|date_modify("+5 day")|date('Y-m-d') }}
+                </th>
+                <th style="text-align: center" class="info">{{ monday|date_modify("+6 day")|date('Y-m-d') }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td></td>
+
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.patient.lastname}}
+                            {{appointment.patient.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date_modify("+1 day")|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.patient.lastname}}
+                            {{appointment.patient.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date_modify("+2 day")|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.medecin.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date_modify("+3 day")|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.medecin.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date_modify("+4 day")|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.medecin.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date_modify("+5 day")|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.medecin.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+                <td>
+                    {% for appointment in appointments %}
+                    {% if appointment.date|date('Y-m-d') == monday|date_modify("+6 day")|date('Y-m-d') %}
+                    <div class="animation-switcher">
+                        <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
+                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.medecin.firstname}}</button>
+                        {% endif %}
+                        {% endfor %}
+                </td>
+
+
+
+            </tr>
+
+
+        </tbody>
+    </table>
+
+    {% else %}
+    <meta http-equiv="refresh" content="0; url={{path('homepage')}}">
+
+    {% endif %}
+    {% else %}
+    <meta http-equiv="refresh" content="0; url={{path('homepage')}}">
+    {% endif %}
+    {% endblock %}
