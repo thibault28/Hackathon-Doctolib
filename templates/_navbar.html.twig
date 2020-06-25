@@ -28,7 +28,14 @@
 
 
             {% endif %}
+        
             
+            <div>
+                <form method="GET" action="{{ path('search')}}">
+                    <input type="search" value="" name="search" placeholder="Search">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
             <li class="nav-item dropdown ml-auto">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                     aria-haspopup="true"
