@@ -1,5 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-light  bg-primary">
+    <a class="navbar-brand" href="#">
+              <img src="https://zupimages.net/up/20/26/evxl.jpg" width="40" height="40" alt="">
+              </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -7,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav w-100">
             <li class="nav-item active">
-                <a class="nav-link" href="{{path('homepage')}}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link text-white" href="{{path('homepage')}}">Home <span class="sr-only">(current)</span></a>
             </li>
             {% if app.user %}
 
                 {% if app.user.roles[0] == "ROLE_USER" %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{path("appointment_new")}}">Take appointment</a>
+                        <a class="nav-link text-white" href="{{path("appointment_new")}}">Take appointment</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{path("appointment_patient", {'week': '', 'year': ''})}}">Planning</a>
+                        <a class="nav-link text-white" href="{{path("appointment_patient", {'week': '', 'year': ''})}}">Planning</a>
                     </li>
                 {% endif %}
 
@@ -37,9 +39,9 @@
                 </form>
             </div>
             <li class="nav-item dropdown ml-auto">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                     aria-haspopup="true"
-                    aria-expanded="false">{% if app.user %}{{app.user.email}}{% else %}Paramètre{% endif %}</a>
+                    aria-expanded="false">{% if app.user %}{{app.user.email}}{% else %}Settings{% endif %}</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 
                     {% if app.user %}
@@ -50,11 +52,11 @@
 
                     {% endif %}
 
-                    <a class="dropdown-item" href="{{path('app_logout')}}">Se déconnecter</a>
+                    <a class="dropdown-item" href="{{path('app_logout')}}">Logout</a>
 
                     {% else %}
-                    <a class="dropdown-item" href="{{path('app_login')}}">Se connecter</a>
-                    <a class="dropdown-item" href="{{path('app_register')}}">S'inscrire</a>
+                    <a class="dropdown-item" href="{{path('app_login')}}">login</a>
+                    <a class="dropdown-item" href="{{path('app_register')}}">Signup</a>
 
 
                     {% endif %}
