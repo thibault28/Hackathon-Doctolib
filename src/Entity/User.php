@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -57,6 +59,24 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $lastname;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Appointment::class, mappedBy="patient")
+     */
+    private $appointmentsPatient;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Appointment::class, mappedBy="medecin")
+     */
+    private $apointmentsMedecin;
+
+
+
+    public function __construct()
+    {
+        $this->appointmentsPatient = new ArrayCollection();
+        $this->apointmentsMedecin = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,5 +207,72 @@ class User implements UserInterface
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Appointment[]
+     */
+    public function getAppointmentsPatient(): Collection
+    {
+        return $this->appointmentsPatient;
+    }
+
+    public function addAppointmentPatient(Appointment $appointmentPatient): self
+    {
+        if (!$this->appointmentsPatient->contains($appointmentPatient)) {
+            $this->appointmentsPatient[] = $appointmentPatient;
+            $appointmentPatient->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointmentPatient(Appointment $appointmentPatient): self
+    {
+        if ($this->appointmentsPatient->contains($appointmentPatient)) {
+            $this->appointmentsPatient->removeElement($appointmentPatient);
+            // set the owning side to null (unless already changed)
+            if ($appointmentPatient->getPatient() === $this) {
+                $appointmentPatient->setPatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Appointment[]
+     */
+    public function getApointmentsMedecin(): Collection
+    {
+        return $this->apointmentsMedecin;
+    }
+
+    public function addApointmentsMedecin(Appointment $apointmentsMedecin): self
+    {
+        if (!$this->apointmentsMedecin->contains($apointmentsMedecin)) {
+            $this->apointmentsMedecin[] = $apointmentsMedecin;
+            $apointmentsMedecin->setMedecin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApointmentsMedecin(Appointment $apointmentsMedecin): self
+    {
+        if ($this->apointmentsMedecin->contains($apointmentsMedecin)) {
+            $this->apointmentsMedecin->removeElement($apointmentsMedecin);
+            // set the owning side to null (unless already changed)
+            if ($apointmentsMedecin->getMedecin() === $this) {
+                $apointmentsMedecin->setMedecin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFullName()
+    {
+        return $this->lastname.' '.$this->firstname;
     }
 }
