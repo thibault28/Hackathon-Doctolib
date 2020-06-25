@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Appointment{% endblock %}
+
+{% block body %}
+
+    {% if app.user.roles[0] == "ROLE_USER" %}
+
+    <h1>Create new Appointment</h1>
+
+    {{ include('appointment/_form.html.twig') }}
+
+
+    {% else %}
+        <meta http-equiv="refresh" content="0; url={{path('homepage')}}">
+
+    {% endif %}
+{% endblock %}

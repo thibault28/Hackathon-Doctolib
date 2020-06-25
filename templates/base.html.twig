@@ -22,8 +22,9 @@
     {% endfor %}
 
 
-
+<div class="container-fluid">
     {% block body %}{% endblock %}
+</div>
     {{ encore_entry_script_tags('app') }}
     {% block javascripts %}{% endblock %}
 </body>
