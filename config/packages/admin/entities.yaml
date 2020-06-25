@@ -1,5 +1,25 @@
 easy_admin:
   entities:
+    Category:
+      class: App\Entity\Category
+      form:
+        fields:
+          - { property: 'name'}
+    Example:
+      class: App\Entity\Example
+      list:
+        fields:
+          - { property: 'name'}
+          - { property: 'image', type: 'image', base_path: '/uploads/examples' }
+      form:
+        fields:
+          - { property: 'name'}
+          - property: "category" 
+            type: 'entity'
+            type_options:
+              class: 'App\Entity\Category'
+              choice_label: 'name'
+          - { property: "file", type: 'file'}
     User:
       class: App\Entity\User
       # Notre controller spécifique

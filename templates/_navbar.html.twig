@@ -11,15 +11,24 @@
             </li>
             {% if app.user %}
 
-                {% if is_granted("ROLE_USER") %}
+                {% if app.user.roles[0] == "ROLE_USER" %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Appointment</a>
+                        <a class="nav-link" href="{{path("appointment_new")}}">Take appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path("appointment_patient", {'week': '', 'year': ''})}}">Planning</a>
                     </li>
                 {% endif %}
+
+                {% if app.user.roles[0] == "ROLE_MEDECIN" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path("appointment_medecin", {'week': '', 'year': ''})}}">Planning</a>
+                    </li>
+                {% endif %}
+
+
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-            </li>
+            
             <li class="nav-item dropdown ml-auto">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                     aria-haspopup="true"
