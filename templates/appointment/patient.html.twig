@@ -2,7 +2,13 @@
 
 {% block title %}Appointment index{% endblock %}
 
+{% block stylesheets %}
+{{ encore_entry_link_tags('planning_patient') }}
+    {% endblock %}
 
+{% block javascripts %}
+{{ encore_entry_script_tags('planning_patient') }}
+    {% endblock %}
 
 {% block body %}
 

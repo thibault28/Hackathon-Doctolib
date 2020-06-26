@@ -1,29 +1,15 @@
 easy_admin:
   entities:
-    Category:
-      class: App\Entity\Category
-      form:
-        fields:
-          - { property: 'name'}
-    Example:
-      class: App\Entity\Example
-      list:
-        fields:
-          - { property: 'name'}
-          - { property: 'image', type: 'image', base_path: '/uploads/examples' }
-      form:
-        fields:
-          - { property: 'name'}
-          - property: "category" 
-            type: 'entity'
-            type_options:
-              class: 'App\Entity\Category'
-              choice_label: 'name'
-          - { property: "file", type: 'file'}
     User:
       class: App\Entity\User
       # Notre controller spécifique
       controller: App\Controller\Admin\User\UserAdminController
+      list:
+        fields:
+          - { property: "email" }
+          - { property: "firstname" }
+          - { property: "lastname" }
+          - { property: "statut.name",label: "Statut" }
       form:
         fields:
           - { property: "email" }
@@ -31,11 +17,12 @@ easy_admin:
             type: "password"
             type_options: { required: false }
             label: "Password"
+          - { property: "firstname" }
+          - { property: "lastname" }
           - property: "roles"
             type: "choice"
             type_options:
               mapped: true
               expanded: true
               multiple: true
-              choices: { "User": "ROLE_USER", "Administrateur": "ROLE_ADMIN" }
-          - { property: "isActive" }
+              choices: { "Administrateur": "ROLE_ADMIN" }
