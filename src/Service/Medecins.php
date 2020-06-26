@@ -42,4 +42,22 @@ class Medecins
 
         return $json->records;
     }
+
+    public function getInfosMedecin(string $param)
+    {
+        $result = null;
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=annuaire-des-professionnels-de-sante&q='.$param);
+
+        $statusCode = $response->getStatusCode();
+        // $statusCode = 200
+        $contentType = $response->getHeaders()['content-type'][0];
+        // $contentType = 'application/json'
+        $content = $response->getContent();
+        $json = json_decode($content);
+
+        
+
+        return $json->records[0]->fields;
+    }
 }

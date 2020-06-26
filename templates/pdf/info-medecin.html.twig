@@ -1,0 +1,15 @@
+{% extends "pdf/base.html.twig" %}
+
+{% block body %}
+
+
+
+<h1 class="text-center">{{medecin}}</h1>
+
+<p>Nature of exercise {{info.nature_exercice}}</p>
+<p>Address : {{info.adresse|lower}}</p>
+<p>Telephone : {{info.telephone}}</p>
+
+
+
+{% endblock %}

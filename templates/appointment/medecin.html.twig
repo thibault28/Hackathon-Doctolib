@@ -73,7 +73,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.patient.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.patient.lastname}}
                             {{appointment.patient.firstname}}</button>
                         {% endif %}
                         {% endfor %}
@@ -83,7 +83,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date_modify("+1 day")|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.patient.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.patient.lastname}}
                             {{appointment.patient.firstname}}</button>
                         {% endif %}
                         {% endfor %}
@@ -93,7 +93,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date_modify("+2 day")|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.medecin.lastname}}
                             {{appointment.medecin.firstname}}</button>
                         {% endif %}
                         {% endfor %}
@@ -103,7 +103,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date_modify("+3 day")|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.medecin.lastname}}
                             {{appointment.medecin.firstname}}</button>
                         {% endif %}
                         {% endfor %}
@@ -113,7 +113,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date_modify("+4 day")|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.medecin.lastname}}
                             {{appointment.medecin.firstname}}</button>
                         {% endif %}
                         {% endfor %}
@@ -123,7 +123,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date_modify("+5 day")|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.medecin.lastname}}
                             {{appointment.medecin.firstname}}</button>
                         {% endif %}
                         {% endfor %}
@@ -133,7 +133,7 @@
                     {% if appointment.date|date('Y-m-d') == monday|date_modify("+6 day")|date('Y-m-d') %}
                     <div class="animation-switcher">
                         <button style="margin-top: 2px;" type="button" class="btn btn-warning col-md-12">
-                            {{appointment.schedule|date("h:i")}}<br>{{appointment.medecin.lastname}}
+                            {{appointment.schedule|date("H:i")}}<br>{{appointment.medecin.lastname}}
                             {{appointment.medecin.firstname}}</button>
                         {% endif %}
                         {% endfor %}

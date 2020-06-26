@@ -1,0 +1,26 @@
+{% extends "emails/base.html.twig" %}
+
+{% block body %}
+
+
+
+<h1 class="text-center">You have an appointment with {{medecin}}</h1>
+
+<p>Date : {{date|date("Y/m/d")}}</p>
+<p>Schedule : {{schedule|date("H:i")}}</p>
+
+{% if info.adresse is defined %}
+    
+
+
+<p>Address : {{info.adresse|lower}}</p>
+{% endif %}
+
+{% if info.telephone is defined %}
+
+<p>Telephone : {{info.telephone}}</p>
+{% endif %}
+
+
+
+{% endblock %}
