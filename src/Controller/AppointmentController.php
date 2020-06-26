@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Appointment;
 use App\Form\AppointmentType;
 use App\Repository\AppointmentRepository;
+use App\Service\Chars;
+use App\Service\Medecins;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
 
 /**
  * @Route("/appointment")
@@ -38,7 +41,7 @@ class AppointmentController extends AbstractController
 
 
         $user = $this->getUser();
-        $appointments = $this->getDoctrine()->getRepository(Appointment::class)->findBy(['patient' => $user],['date' => 'ASC']);
+        $appointments = $this->getDoctrine()->getRepository(Appointment::class)->findBy(['patient' => $user],['date' => 'ASC','schedule'=>'ASC']);
 
 
         return $this->render('appointment/patient.html.twig', [
@@ -69,7 +72,7 @@ class AppointmentController extends AbstractController
 
 
         $user = $this->getUser();
-        $appointments = $this->getDoctrine()->getRepository(Appointment::class)->findBy(['medecin' => $user],['date' => 'ASC']);
+        $appointments = $this->getDoctrine()->getRepository(Appointment::class)->findBy(['medecin' => $user],['date' => 'ASC','schedule'=>'ASC']);
 
 
         return $this->render('appointment/medecin.html.twig', [
@@ -84,7 +87,7 @@ class AppointmentController extends AbstractController
     /**
      * @Route("/new", name="appointment_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, \Swift_Mailer $mailer): Response
     {
         $appointment = new Appointment();
         $form = $this->createForm(AppointmentType::class, $appointment);
@@ -105,11 +108,48 @@ class AppointmentController extends AbstractController
 
             }else{
 
+                $nameMedecin = $appointment->getMedecin()->getFirstname().' '. $appointment->getMedecin()->getLastname();
+
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($appointment);
                 $entityManager->flush();
+
+                try{
+
+                    
+                $medecin = new Medecins();
+                $char = new Chars();
+                $info = $medecin->getInfosMedecin($char->removeAccent($nameMedecin));
+
+                
+
+                $message = (new \Swift_Message('Object'))
+                ->setFrom('contact@docty.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        // templates/emails/example.html.twig
+                        'emails/new-appointment.html.twig',[
+                            'medecin'=>$nameMedecin,
+                            'date'=>$appointment->getDate(),
+                            'schedule'=>$appointment->getSchedule(),
+                            'info'=>$info,
+                        ]
+                ),
+                'text/html'
+            );
+
+            $mailer->send($message);
+
+                }catch(Exception $e){
+
+                }finally{
+
+                    return $this->redirectToRoute('appointment_patient');
+                }
+
     
-                return $this->redirectToRoute('appointment_patient');
+
             }
 
         }
@@ -121,7 +161,7 @@ class AppointmentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{url}", name="appointment_delete")
+     * @Route("/delete/{id}/{url}", name="appointment_delete")
      */
     public function delete(Request $request, Appointment $appointment, $url): Response
     {
@@ -138,5 +178,34 @@ class AppointmentController extends AbstractController
 
 
        return $this->redirect($url);
+    }
+
+     /**
+     * @Route("/pdf/{id}", name="cc")
+     */
+    public function pdf(Request $request, Appointment $appointment)
+    {
+        $nameMedecin = $appointment->getMedecin()->getFirstname().' '. $appointment->getMedecin()->getLastname();
+        $medecin = new Medecins();
+        $char = new Chars();
+        $info = $medecin->getInfosMedecin($char->removeAccent($nameMedecin));
+
+        $dompdf = new DOMPDF();
+
+        $html = ob_get_clean();
+        $html .= $html = $this->renderView('pdf/info-medecin.html.twig',[
+            'medecin'=>$nameMedecin,
+            'date'=>$appointment->getDate(),
+            'schedule'=>$appointment->getSchedule(),
+            'info'=>$info,
+        ]);
+
+        $dompdf->load_html($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        //Attachment => true Téléchargement
+        //Attachment => false Vue dans le navigateur
+
+        $dompdf->stream("test.pdf", ["Attachment" => false]);
     }
 }

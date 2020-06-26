@@ -36,13 +36,19 @@ $("#myTable td button").contextmenu(function(event) {
       left: event.pageX
     });
 });
-$(".context button").click(function(event) {
+$(".context button.delete").click(function(event) {
 
-
-
-  location.href = "/appointment/"+id+"/"+url;
+  location.href = "/appointment/delete/"+id+"/"+url;
   
 });
+
+$(".context button.info-medecin").click(function(event) {
+
+  window.open("/appointment/pdf/"+id,'_blank');
+  window.location.replace(window.location.href);
+  
+});
+
 $(document).click(function() {
   if ($(".context").is(":hover") == false) {
     $(".context").fadeOut("fast");
