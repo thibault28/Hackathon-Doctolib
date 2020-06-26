@@ -24,7 +24,7 @@
 
                 {% if app.user.roles[0] == "ROLE_MEDECIN" %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{path("appointment_medecin", {'week': '', 'year': ''})}}">Planning</a>
+                        <a class="nav-link text-white" href="{{path("appointment_medecin", {'week': '', 'year': ''})}}">Planning</a>
                     </li>
                 {% endif %}
 

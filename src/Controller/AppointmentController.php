@@ -139,15 +139,17 @@ class AppointmentController extends AbstractController
                 'text/html'
             );
 
-        $mailer->send($message);
+            $mailer->send($message);
 
                 }catch(Exception $e){
 
+                }finally{
+
+                    return $this->redirectToRoute('appointment_patient');
                 }
 
     
 
-                return $this->redirectToRoute('appointment_patient');
             }
 
         }
