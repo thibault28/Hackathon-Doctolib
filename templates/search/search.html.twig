@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+<h1>Research</h1>
+<p>The doctor you are looking for is not necessarily registered.</p>
+<div class="row">
+{% for medecin in medecins %}
+    <div class="card col-sm-12 col-lg-4 col-md-4">
+        <div class="card-body col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-8 offset-2">
+            <h5 class="card-title">{{ medecin.fields.nom }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ medecin.fields.libelle_profession }}</h6>
+            <p class="card-text">{{ medecin.fields.adresse }}</p>
+            {% if medecin.fields.column_10 is defined %}
+            <a href="#" class="card-link">{{ medecin.fields.column_10 }}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

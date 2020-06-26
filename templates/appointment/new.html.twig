@@ -7,10 +7,13 @@
 {% if app.user %}
     {% if app.user.roles[0] == "ROLE_USER" %}
 
+    <div class="container-fluid col-4 p-5 my-4 rounded bg-primary text-light">
+
     <h1>Create new Appointment</h1>
 
     {{ include('appointment/_form.html.twig') }}
 
+    </div>
 
     {% else %}
         <meta http-equiv="refresh" content="0; url={{path('homepage')}}">

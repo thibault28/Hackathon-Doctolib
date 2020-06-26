@@ -3,7 +3,7 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="container-fluid col-4 p-5 my-4 rounded bg-secondary text-light">
+<div class="container-fluid col-4 p-5 my-4 rounded bg-primary text-light">
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -15,7 +15,7 @@
             </div>
         {% endif %}
 
-        <h1 class="text-primary text-center mb-3">Sign in</h1>
+        <h1 class="text-secondary text-center mb-3">Sign in</h1>
         <label for="inputEmail">Email</label>
         <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-2" required autofocus>
         <label for="inputPassword">Password</label>
@@ -35,7 +35,7 @@
         </div>
     #}
 
-        <button class="btn bg-primary mt-3 text-white center-block" type="submit">
+        <button class="btn btn-secondary mt-3 text-white center-block" type="submit">
             Sign in
         </button>
     </form>
